@@ -7,10 +7,6 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <style>
 body{font-family:'Sarabun',sans-serif;background:#f1f5f9}
 .navy{background:#141b4d}.gold{color:#f5b301}
@@ -19,59 +15,31 @@ body{font-family:'Sarabun',sans-serif;background:#f1f5f9}
 </style>
 </head>
 <body class="text-slate-800">
-
-<!-- หน้าจอ Login -->
-<div id="loginOverlay" class="fixed inset-0 navy z-50 flex items-center justify-center p-4">
- <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 text-center">
-  <div class="w-16 h-16 mx-auto navy rounded-full flex items-center justify-center mb-4 text-3xl text-white shadow-lg">🏫</div>
-  <h2 class="text-xl font-bold text-[#141b4d]">ระบบงบประมาณวิชาการ 2570</h2>
-  <p class="text-xs text-slate-500 mb-6">โรงเรียนหาดใหญ่วิทยาลัยสมบูรณ์กุลกันยา</p>
-  <div class="space-y-4 text-left">
-   <div><label class="text-xs font-semibold text-slate-600">ชื่อผู้ใช้งาน (Username)</label>
-    <input id="lUser" type="text" placeholder="เช่น admin หรือ teacher01" class="w-full border rounded-lg px-3 py-2.5 mt-1 focus:ring-2 focus:ring-[#141b4d] outline-none"></div>
-   <div><label class="text-xs font-semibold text-slate-600">รหัสผ่าน (Password)</label>
-    <input id="lPass" type="password" placeholder="••••••••" class="w-full border rounded-lg px-3 py-2.5 mt-1 focus:ring-2 focus:ring-[#141b4d] outline-none" onkeydown="if(event.key==='Enter')doLogin()"></div>
-   <div id="lErr" class="text-xs text-rose-600 text-center font-semibold hidden"></div>
-   <button onclick="doLogin()" class="w-full navy text-white font-semibold py-3 rounded-lg shadow-md hover:bg-opacity-90 transition">เข้าสู่ระบบ</button>
-  </div>
-  <div class="mt-6 text-[11px] text-slate-400">Admin เริ่มต้น: username: <b>admin</b> | password: <b>password123</b></div>
- </div>
-</div>
-
-<!-- Loader -->
-<div id="loader" class="hidden fixed inset-0 bg-black/40 z-50 flex flex-col items-center justify-center text-white">
- <div class="w-12 h-12 border-4 border-white/30 border-t-[#f5b301] rounded-full animate-spin mb-4"></div>
- <div class="text-sm font-semibold bg-[#141b4d] px-4 py-2 rounded-lg shadow">กำลังซิงค์ข้อมูลกับฐานข้อมูลกลาง...</div>
-</div>
-
 <div class="flex min-h-screen">
-<aside class="w-60 navy text-slate-200 flex-shrink-0 no-print flex flex-col justify-between">
- <div>
-  <div class="p-4 border-b border-white/15 text-center">
-   <div class="w-12 h-12 mx-auto bg-white/95 rounded-full flex items-center justify-center mb-2 text-xl">🏫</div>
-   <h1 class="text-xs font-bold text-white leading-snug">หาดใหญ่วิทยาลัยสมบูรณ์กุลกันยา</h1>
-   <p class="text-[11px] gold mt-1">งบประมาณ 2570</p>
-   <div id="userBadge" class="mt-2 inline-block bg-white/10 text-[10px] px-2 py-0.5 rounded text-amber-300"></div>
-  </div>
-  <nav class="p-3 space-y-1">
-   <button data-page="dashboard" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-white/10 text-sm">📊 แดชบอร์ด</button>
-   <button data-page="projects" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-white/10 text-sm">📁 โครงการ</button>
-   <button data-page="activities" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-white/10 text-sm">✅ กิจกรรม</button>
-   <button data-page="compare" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-white/10 text-sm">⚖️ งบเปรียบเทียบ</button>
-   <button data-page="report" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-white/10 text-sm">📄 รายงาน</button>
-   <button data-page="settings" id="navSettings" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-white/10 text-sm hidden">⚙️ จัดการผู้ใช้/ตั้งค่า</button>
-  </nav>
+
+<aside class="w-60 navy text-slate-200 flex-shrink-0 no-print">
+ <div class="p-4 border-b border-white/15 text-center">
+  <div class="w-14 h-14 mx-auto bg-white/95 rounded-full flex items-center justify-center mb-2 text-2xl">🏫</div>
+  <h1 class="text-xs font-bold text-white leading-snug">โรงเรียนหาดใหญ่วิทยาลัย<br>สมบูรณ์กุลกันยา</h1>
+  <p class="text-[11px] gold mt-1">งบประมาณ 2570</p>
+  <p class="text-[10px] text-slate-400">กลุ่มบริหารวิชาการ</p>
  </div>
- <div class="p-3 border-t border-white/15 text-[10px] text-slate-400">
-  <div id="stamp" class="mb-2"></div>
-  <button onclick="doLogout()" class="w-full bg-rose-600 text-white font-semibold py-1.5 rounded text-xs">🚪 ออกจากระบบ</button>
- </div>
+ <nav class="p-3 space-y-1">
+  <button data-page="dashboard" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-white/10 text-sm">📊 แดชบอร์ด</button>
+  <button data-page="projects" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-white/10 text-sm">📁 โครงการ</button>
+  <button data-page="activities" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-white/10 text-sm">✅ กิจกรรม</button>
+  <button data-page="compare" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-white/10 text-sm">⚖️ งบเปรียบเทียบ</button>
+  <button data-page="report" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-white/10 text-sm">📄 รายงาน</button>
+  <button data-page="settings" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-white/10 text-sm">⚙️ ตั้งค่า</button>
+ </nav>
+ <div class="p-3 mt-3 border-t border-white/15 text-[10px] text-slate-400" id="stamp"></div>
 </aside>
 
 <main class="flex-1 p-6 overflow-auto">
+
 <section id="page-dashboard" class="page">
  <h2 class="text-2xl font-bold mb-1">แดชบอร์ดสรุปงบประมาณ</h2>
- <p class="text-slate-500 mb-5 text-sm">ปีงบประมาณ พ.ศ. 2570 • ฐานข้อมูลกลางออนไลน์</p>
+ <p class="text-slate-500 mb-5 text-sm">ปีงบประมาณ พ.ศ. 2570 (1 ต.ค. 2569 – 30 ก.ย. 2570)</p>
  <div class="grid md:grid-cols-4 gap-4 mb-6">
   <div class="bg-white rounded-xl shadow-sm p-5 border-l-4" style="border-color:#141b4d">
    <div class="text-slate-500 text-sm">งบประมาณที่จัดสรร</div><div id="kTotal" class="text-2xl font-bold" style="color:#141b4d">0</div><div class="text-xs text-slate-400">บาท</div></div>
@@ -99,7 +67,7 @@ body{font-family:'Sarabun',sans-serif;background:#f1f5f9}
 
 <section id="page-projects" class="page hidden">
  <div class="flex justify-between items-center mb-5"><h2 class="text-2xl font-bold">จัดการโครงการ</h2>
-  <button id="btnAddProj" onclick="openP()" class="navy text-white px-5 py-2.5 rounded-lg font-semibold hidden">+ เพิ่มโครงการ</button></div>
+  <button onclick="openP()" class="navy text-white px-5 py-2.5 rounded-lg font-semibold">+ เพิ่มโครงการ</button></div>
  <div class="bg-white rounded-xl shadow-sm p-4 mb-4 flex gap-3 items-end flex-wrap">
   <div><label class="text-xs text-slate-500">กลุ่มงาน</label><select id="fG" onchange="rProjects()" class="block border rounded-lg px-3 py-2 mt-1"></select></div>
   <div class="flex-1 min-w-[200px]"><label class="text-xs text-slate-500">ค้นหา</label><input id="sP" oninput="rProjects()" placeholder="ชื่อโครงการ / ผู้รับผิดชอบ" class="block w-full border rounded-lg px-3 py-2 mt-1"></div></div>
@@ -111,7 +79,7 @@ body{font-family:'Sarabun',sans-serif;background:#f1f5f9}
 </section>
 
 <section id="page-activities" class="page hidden">
- <div class="flex justify-between items-center mb-5"><h2 class="text-2xl font-bold">จัดการกิจกรรมและการเบิกจ่าย</h2>
+ <div class="flex justify-between items-center mb-5"><h2 class="text-2xl font-bold">จัดการกิจกรรม</h2>
   <button onclick="openA()" class="bg-emerald-600 text-white px-5 py-2.5 rounded-lg font-semibold">+ เพิ่มกิจกรรม</button></div>
  <div class="bg-white rounded-xl shadow-sm p-4 mb-4 flex gap-3 items-end flex-wrap">
   <div><label class="text-xs text-slate-500">โครงการ</label><select id="fP" onchange="rActs()" class="block border rounded-lg px-3 py-2 mt-1 min-w-[280px]"></select></div>
@@ -142,30 +110,19 @@ body{font-family:'Sarabun',sans-serif;background:#f1f5f9}
 </section>
 
 <section id="page-settings" class="page hidden">
- <h2 class="text-2xl font-bold mb-5">จัดการผู้ใช้และตั้งค่าระบบ (Admin)</h2>
- <div class="grid md:grid-cols-2 gap-6">
-  <div class="bg-white rounded-xl shadow-sm p-6">
-   <h3 class="font-semibold mb-3 text-lg text-[#141b4d]">👤 เพิ่มบัญชีผู้ใช้ใหม่ให้ครู</h3>
-   <div class="space-y-3">
-    <div><label class="text-xs">Username (ชื่อเข้าระบบ)</label><input id="nuName" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
-    <div><label class="text-xs">Password (รหัสผ่าน)</label><input id="nuPass" type="text" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
-    <div><label class="text-xs">สิทธิ์การใช้งาน</label><select id="nuRole" class="w-full border rounded-lg px-3 py-2 mt-1">
-     <option value="user">ผู้รับผิดชอบโครงการ (เพิ่ม/แก้ กิจกรรมตนเอง)</option>
-     <option value="admin">ผู้ดูแลระบบ (Admin - จัดการได้ทั้งหมด)</option>
-    </select></div>
-    <button onclick="createNewUser()" class="w-full navy text-white py-2 rounded-lg font-semibold mt-2">สร้างบัญชีผู้ใช้</button>
-   </div>
-  </div>
-  <div class="bg-white rounded-xl shadow-sm p-6">
-   <h3 class="font-semibold mb-3 text-lg text-[#141b4d]">⚙️ ตั้งค่าฐานข้อมูล</h3>
-   <p class="text-xs text-slate-500 mb-4">หากข้อมูลผิดพลาดหรือต้องการรีเซ็ตโครงสร้างเริ่มต้นทั้งหมด สามารถกดปุ่มด้านล่างนี้ได้ (ระวัง: ข้อมูลทั้งหมดจะถูกล้างและแทนที่ด้วยข้อมูลตั้งต้น 43 โครงการ)</p>
-   <button onclick="resetCloudData()" class="bg-rose-600 text-white px-5 py-2.5 rounded-lg font-semibold text-sm">⚠️ รีเซ็ตข้อมูลเป็นค่าเริ่มต้น (Seed 43 โครงการ)</button>
-  </div>
- </div>
+ <h2 class="text-2xl font-bold mb-5">ตั้งค่าระบบ</h2>
+ <div class="bg-white rounded-xl shadow-sm p-6 mb-4"><h3 class="font-semibold mb-3">ชื่อกลุ่มงาน / สี / เพดานงบ</h3>
+  <div id="gSet" class="space-y-3"></div>
+  <button onclick="saveG()" class="mt-4 navy text-white px-5 py-2 rounded-lg">บันทึก</button></div>
+ <div class="bg-white rounded-xl shadow-sm p-6"><h3 class="font-semibold mb-3">สำรอง / กู้คืนข้อมูล</h3>
+  <div class="flex flex-wrap gap-3">
+   <button onclick="expJSON()" class="bg-slate-700 text-white px-4 py-2 rounded-lg">⬇️ สำรองข้อมูล</button>
+   <label class="bg-emerald-600 text-white px-4 py-2 rounded-lg cursor-pointer">⬆️ กู้คืนข้อมูล<input type="file" accept=".json" class="hidden" onchange="impJSON(event)"></label>
+   <button onclick="resetAll()" class="bg-amber-500 text-white px-4 py-2 rounded-lg">↺ โหลดข้อมูลตั้งต้นใหม่</button></div>
+  <p class="text-xs text-slate-500 mt-3">ข้อมูลบันทึกอัตโนมัติในเครื่องนี้ • แนะนำกดสำรองข้อมูลทุกสิ้นเดือน</p></div>
 </section>
 </main></div>
 
-<!-- Modal Project -->
 <div id="mP" class="hidden fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
  <div class="bg-white rounded-xl w-full max-w-2xl max-h-[90vh] overflow-auto">
   <div class="navy text-white p-4 flex justify-between rounded-t-xl"><h3 id="pT" class="font-bold">เพิ่มโครงการ</h3>
@@ -187,7 +144,6 @@ body{font-family:'Sarabun',sans-serif;background:#f1f5f9}
   <div class="p-5 border-t flex justify-end gap-2"><button onclick="cls('mP')" class="px-5 py-2 rounded-lg border">ยกเลิก</button>
    <button onclick="saveP()" class="px-5 py-2 rounded-lg navy text-white font-semibold">บันทึก</button></div></div></div>
 
-<!-- Modal Activity -->
 <div id="mA" class="hidden fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
  <div class="bg-white rounded-xl w-full max-w-2xl max-h-[90vh] overflow-auto">
   <div class="bg-emerald-700 text-white p-4 flex justify-between rounded-t-xl"><h3 id="aT" class="font-bold">เพิ่มกิจกรรม</h3>
@@ -207,25 +163,6 @@ body{font-family:'Sarabun',sans-serif;background:#f1f5f9}
    <button onclick="saveA()" class="px-5 py-2 rounded-lg bg-emerald-600 text-white font-semibold">บันทึก</button></div></div></div>
 
 <script>
-// ตั้งค่า Firebase ของคุณครู
-const firebaseConfig = {
-  apiKey: "***************************************",
-  authDomain: "budget2570vck.firebaseapp.com",
-  projectId: "budget2570vck",
-  storageBucket: "budget2570vck.firebasestorage.app",
-  messagingSenderId: "245093679100",
-  appId: "1:245093679100:web:425b014d38a4bb4b6cfc79",
-  measurementId: "G-WXLK1PQ3PW"
-};
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-var currentUser = null;
-var userRole = 'user';
-var DB = { groups:[], projects:[], activities:[] };
-
-// ข้อมูลเริ่มต้น 43 โครงการ
 var RAW_P=[
 ['P01','1','พัฒนาและเพิ่มประสิทธิภาพการทำงานด้านการบริหารวิชาการ','G1','นางสุรีพร ชิตมณี',0,10000,0],
 ['P02','2','พัฒนาระบบงานเลขานุการ กลุ่มบริหารวิชาการ','G1','นางสิตานัน อนุสาร',0,5000,0],
@@ -281,80 +218,7 @@ var RAW_A=[
 ['A07','P29','ทัศนศึกษาของนักเรียน ปีละครั้ง',280000,'งานกิจกรรมพัฒนาผู้เรียน'],
 ['A08','P24','นำเสนอผลงานการศึกษาค้นคว้าด้วยตนเอง (IS)',60000,'น.ส.จุฑามาศ อนันตกูล']];
 
-// ตรวจสอบสถานะ Login
-auth.onAuthStateChanged(function(user){
- if(user){
-  currentUser = user;
-  // ดึงสิทธิ์จาก Firestore
-  db.collection('users').doc(user.uid).get().then(function(doc){
-   if(doc.exists){ userRole = doc.data().role || 'user'; }
-   else { userRole = (user.email === 'admin@budget2570vck.local') ? 'admin' : 'user'; }
-   setupUIPermissions();
-   loadCloudData();
-   $('loginOverlay').classList.add('hidden');
-  });
- } else {
-  $('loginOverlay').classList.remove('hidden');
- }
-});
-
-function doLogin(){
- var u = $('lUser').value.trim().toLowerCase();
- var p = $('lPass').value;
- if(!u || !p){ showErr('กรุณากรอกชื่อผู้ใช้และรหัสผ่าน'); return; }
- var email = u.indexOf('@') >= 0 ? u : u + '@budget2570vck.local';
- 
- auth.signInWithEmailAndPassword(email, p).catch(function(err){
-  // ถ้ายังไม่มีบัญชี admin เริ่มต้น ให้สร้างให้อัตโนมัติครั้งแรก
-  if(u === 'admin' && p === 'password123'){
-   auth.createUserWithEmailAndPassword(email, p).then(function(res){
-    db.collection('users').doc(res.user.uid).set({role:'admin', username:'admin'});
-   }).catch(function(e){ showErr('เข้าสู่ระบบไม่สำเร็จ: '+e.message); });
-  } else {
-   showErr('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
-  }
- });
-}
-function showErr(t){ var e = $('lErr'); e.textContent=t; e.classList.remove('hidden'); }
-function doLogout(){ auth.signOut().then(function(){ location.reload(); }); }
-
-function setupUIPermissions(){
- $('userBadge').textContent = currentUser.email.split('@')[0].toUpperCase() + ' (' + (userRole==='admin'?'Admin':'User') + ')';
- if(userRole === 'admin'){
-  $('btnAddProj').classList.remove('hidden');
-  $('navSettings').classList.remove('hidden');
- } else {
-  $('btnAddProj').classList.add('hidden');
-  $('navSettings').classList.add('hidden');
- }
-}
-
-// โหลดข้อมูลจาก Firestore
-function loadCloudData(){
- busy(true);
- db.collection('budgetData').doc('main').get().then(function(doc){
-  if(doc.exists){
-   DB = doc.data();
-   if(!DB.groups || !DB.projects){ seedDefault(); }
-  } else {
-   seedDefault();
-  }
-  busy(false);
-  var cur = document.querySelector('.page:not(.hidden)');
-  go(cur ? cur.id.replace('page-','') : 'dashboard');
- }).catch(function(err){
-  busy(false);
-  alert('โหลดข้อมูลจากคลาวด์ไม่สำเร็จ: '+err.message);
- });
-}
-
-function saveCloud(){
- db.collection('budgetData').doc('main').set(DB).then(function(){
-  $('stamp').textContent = 'ซิงค์ข้อมูลล่าสุด ' + new Date().toLocaleTimeString('th-TH');
- }).catch(function(err){ alert('บันทึกไม่สำเร็จ: '+err.message); });
-}
-
-function seedDefault(){
+function seed(){
  var gs=[{id:'G1',name:'กลุ่มส่งเสริมและสนับสนุนวิชาการ',color:'#141b4d',budget:0},
          {id:'G2',name:'กลุ่มจัดการเรียนรู้',color:'#0f766e',budget:0},
          {id:'G3',name:'กลุ่มโครงการพิเศษ',color:'#c98d00',budget:0}];
@@ -363,31 +227,13 @@ function seedDefault(){
    budget:t,status:'ยังไม่เริ่ม',note:''};});
  gs.forEach(function(g){g.budget=ps.filter(function(p){return p.groupId===g.id;}).reduce(function(s,p){return s+p.budget;},0);});
  var as=RAW_A.map(function(r){return {id:r[0],projectId:r[1],name:r[2],budget:r[3],spent:0,date:'',status:'วางแผน',owner:r[4],note:''};});
- DB = {groups:gs,projects:ps,activities:as};
- saveCloud();
+ return {groups:gs,projects:ps,activities:as};
 }
 
-function resetCloudData(){
- if(!confirm('⚠️ ยืนยันรีเซ็ตข้อมูลทั้งหมดในระบบคลาวด์เป็นค่าเริ่มต้น (43 โครงการ)?')) return;
- busy(true); seedDefault(); busy(false); location.reload();
-}
-
-function createNewUser(){
- var u = $('nuName').value.trim().toLowerCase();
- var p = $('nuPass').value;
- var r = $('nuRole').value;
- if(!u || !p){ alert('กรุณากรอก Username และ Password'); return; }
- var email = u + '@budget2570vck.local';
- 
- auth.createUserWithEmailAndPassword(email, p).then(function(res){
-  db.collection('users').doc(res.user.uid).set({role: r, username: u}).then(function(){
-   alert('สร้างบัญชี ' + u + ' สำเร็จแล้ว');
-   $('nuName').value=''; $('nuPass').value='';
-  });
- }).catch(function(err){ alert('สร้างไม่สำเร็จ: '+err.message); });
-}
-
-// ฟังก์ชันระบบทั่วไป
+var KEY='ysBudget2570';
+var DB=JSON.parse(localStorage.getItem(KEY)||'null')||seed();
+function save(){localStorage.setItem(KEY,JSON.stringify(DB));
+ document.getElementById('stamp').textContent='บันทึกล่าสุด '+new Date().toLocaleString('th-TH');}
 function $(i){return document.getElementById(i);}
 function fmt(n){return Number(n||0).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});}
 function uid(p){return p+Date.now().toString(36)+Math.floor(Math.random()*900+100);}
@@ -396,18 +242,15 @@ function gColor(i){var g=DB.groups.filter(function(x){return x.id===i;})[0];retu
 function spent(p){return DB.activities.filter(function(a){return a.projectId===p&&a.status!=='ยกเลิก';}).reduce(function(s,a){return s+Number(a.spent||0);},0);}
 function nAct(p){return DB.activities.filter(function(a){return a.projectId===p;}).length;}
 function cls(i){$(i).classList.add('hidden');}
-function busy(b){$('loader').classList.toggle('hidden',!b);}
 
 var btns=document.querySelectorAll('.nav-btn');
 for(var i=0;i<btns.length;i++){(function(b){b.onclick=function(){go(b.getAttribute('data-page'));};})(btns[i]);}
-function go(p){
- if(p==='settings' && userRole!=='admin') return;
- var pg=document.querySelectorAll('.page');
+function go(p){var pg=document.querySelectorAll('.page');
  for(var i=0;i<pg.length;i++)pg[i].classList.add('hidden');
  $('page-'+p).classList.remove('hidden');
  for(var j=0;j<btns.length;j++)btns[j].classList.toggle('nav-active',btns[j].getAttribute('data-page')===p);
  if(p==='dashboard')rDash();else if(p==='projects')rProjects();else if(p==='activities')rActs();
- else if(p==='compare')rCompare();else if(p==='report')rReport();}
+ else if(p==='compare')rCompare();else if(p==='report')rReport();else if(p==='settings')rSet();}
 
 var c1,c2;
 function rDash(){
@@ -454,7 +297,6 @@ function fillG(){var o=DB.groups.map(function(g){return '<option value="'+g.id+'
 function rProjects(){fillG();var fg=$('fG').value,q=($('sP').value||'').toLowerCase();
  var L=DB.projects.filter(function(p){return (!fg||p.groupId===fg)&&(!q||(p.name+p.owner).toLowerCase().indexOf(q)>=0);});
  $('pTable').innerHTML=L.length?L.map(function(p){var u=spent(p.id),b=Number(p.budget);
-  var actBtns = (userRole==='admin') ? '<button onclick="openP(\''+p.id+'\')" class="text-blue-700 text-xs ml-2">แก้ไข</button><button onclick="delP(\''+p.id+'\')" class="text-rose-600 text-xs ml-2">ลบ</button>' : '';
   return '<tr class="border-b hover:bg-slate-50"><td class="p-3 text-xs">'+p.code+'</td>'+
   '<td class="p-3 font-medium">'+p.name+'</td>'+
   '<td class="p-3 text-xs"><span class="px-2 py-1 rounded text-white" style="background:'+gColor(p.groupId)+'">'+gName(p.groupId)+'</span></td>'+
@@ -462,29 +304,29 @@ function rProjects(){fillG();var fg=$('fG').value,q=($('sP').value||'').toLowerC
   '<td class="p-3 text-right text-rose-600">'+fmt(u)+'</td>'+
   '<td class="p-3 text-right font-semibold '+(b-u<0?'text-rose-600':'text-emerald-600')+'">'+fmt(b-u)+'</td>'+
   '<td class="p-3 text-center"><span class="bg-slate-100 px-2 py-1 rounded text-xs">'+nAct(p.id)+'</span></td>'+
-  '<td class="p-3 text-center whitespace-nowrap"><button onclick="openA(null,\''+p.id+'\')" class="text-emerald-600 text-xs">+กิจกรรม</button>'+actBtns+'</td></tr>';}).join('')
+  '<td class="p-3 text-center whitespace-nowrap"><button onclick="openA(null,\''+p.id+'\')" class="text-emerald-600 text-xs">+กิจกรรม</button>'+
+  '<button onclick="openP(\''+p.id+'\')" class="text-blue-700 text-xs ml-2">แก้ไข</button>'+
+  '<button onclick="delP(\''+p.id+'\')" class="text-rose-600 text-xs ml-2">ลบ</button></td></tr>';}).join('')
   :'<tr><td colspan="9" class="p-8 text-center text-slate-400">ไม่พบโครงการ</td></tr>';}
 function sumB(){$('pSum').textContent=fmt((Number($('pDev').value)||0)+(Number($('pSub').value)||0)+(Number($('pOther').value)||0));}
-function openP(id){if(userRole!=='admin'){alert('เฉพาะ Admin เท่านั้นที่เพิ่ม/แก้ไขโครงการได้');return;}
- fillG();var p=DB.projects.filter(function(x){return x.id===id;})[0];
+function openP(id){fillG();var p=DB.projects.filter(function(x){return x.id===id;})[0];
  $('pT').textContent=p?'แก้ไขโครงการ':'เพิ่มโครงการ';
  ['pId','pCode','pName','pOwner','pReq','pDev','pSub','pOther','pNote'].forEach(function(k){$(k).value='';});
  if(p){$('pId').value=p.id;$('pCode').value=p.code;$('pName').value=p.name;$('pGroup').value=p.groupId;
   $('pOwner').value=p.owner;$('pReq').value=p.bReq||'';$('pDev').value=p.bDev||'';$('pSub').value=p.bSub||'';
   $('pOther').value=p.bOther||'';$('pStatus').value=p.status;$('pNote').value=p.note;}
  sumB();$('mP').classList.remove('hidden');}
-function saveP(){
+function saveP(){if(!$('pName').value.trim()){alert('กรุณากรอกชื่อโครงการ');return;}
  var d=Number($('pDev').value)||0,s=Number($('pSub').value)||0,t=Number($('pOther').value)||0;
  var o={id:$('pId').value||uid('P'),code:$('pCode').value,name:$('pName').value.trim(),groupId:$('pGroup').value,
   owner:$('pOwner').value,bReq:Number($('pReq').value)||0,bDev:d,bSub:s,bOther:t,budget:d+s+t,
   status:$('pStatus').value,note:$('pNote').value};
  var i=-1;for(var k=0;k<DB.projects.length;k++)if(DB.projects[k].id===o.id)i=k;
  if(i>=0)DB.projects[i]=o;else DB.projects.push(o);
- saveCloud();cls('mP');rProjects();
-}
-function delP(id){if(userRole!=='admin')return;if(!confirm('ลบโครงการนี้พร้อมกิจกรรมทั้งหมด?'))return;
+ save();cls('mP');rProjects();}
+function delP(id){if(!confirm('ลบโครงการนี้พร้อมกิจกรรมทั้งหมด?'))return;
  DB.projects=DB.projects.filter(function(p){return p.id!==id;});
- DB.activities=DB.activities.filter(function(a){return a.projectId!==id;});saveCloud();rProjects();}
+ DB.activities=DB.activities.filter(function(a){return a.projectId!==id;});save();rProjects();}
 
 function fillP(){var o=DB.projects.map(function(p){return '<option value="'+p.id+'">'+p.code+'. '+p.name+'</option>';}).join('');
  $('aProject').innerHTML=o||'<option value="">— ยังไม่มีโครงการ —</option>';
@@ -502,7 +344,7 @@ function rActs(){fillP();var fp=$('fP').value,q=($('sA').value||'').toLowerCase(
   '<td class="p-3 text-center whitespace-nowrap"><button onclick="openA(\''+a.id+'\')" class="text-blue-700 text-xs">แก้ไข</button>'+
   '<button onclick="delA(\''+a.id+'\')" class="text-rose-600 text-xs ml-2">ลบ</button></td></tr>';}).join('')
   :'<tr><td colspan="8" class="p-8 text-center text-slate-400">ไม่พบกิจกรรม</td></tr>';}
-function openA(id,pid){
+function openA(id,pid){if(!DB.projects.length){alert('กรุณาเพิ่มโครงการก่อน');return go('projects');}
  fillP();var a=DB.activities.filter(function(x){return x.id===id;})[0];
  $('aT').textContent=a?'แก้ไขกิจกรรม':'เพิ่มกิจกรรม';
  ['aId','aName','aBudget','aSpent','aDate','aOwner','aNote'].forEach(function(k){$(k).value='';});
@@ -521,9 +363,9 @@ function saveA(){if(!$('aName').value.trim()||!$('aProject').value){alert('ก�
  if(o.status!=='ยกเลิก'&&oth+o.spent>Number(p.budget)&&!confirm('⚠️ ยอดเบิกจ่ายรวม '+fmt(oth+o.spent)+' บาท เกินงบโครงการ ('+fmt(p.budget)+' บาท) ยืนยันบันทึก?'))return;
  var i=-1;for(var k=0;k<DB.activities.length;k++)if(DB.activities[k].id===o.id)i=k;
  if(i>=0)DB.activities[i]=o;else DB.activities.push(o);
- saveCloud();cls('mA');rActs();}
+ save();cls('mA');rActs();}
 function delA(id){if(!confirm('ลบกิจกรรมนี้?'))return;
- DB.activities=DB.activities.filter(function(a){return a.id!==id;});saveCloud();rActs();}
+ DB.activities=DB.activities.filter(function(a){return a.id!==id;});save();rActs();}
 
 function rCompare(){var tR=0,tA=0;
  $('cTable').innerHTML=DB.projects.map(function(p){
@@ -575,6 +417,20 @@ function rReport(){
  '<div>ลงชื่อ...................................................<br>(...................................................)<br>ผู้อำนวยการโรงเรียน</div></div>';
  $('rArea').innerHTML=h;}
 
+function rSet(){$('gSet').innerHTML=DB.groups.map(function(g){
+ return '<div class="flex items-center gap-3"><input class="flex-1 border rounded-lg px-3 py-2" value="'+g.name+'" data-n="'+g.id+'">'+
+ '<input type="color" class="w-12 h-10 border rounded" value="'+g.color+'" data-c="'+g.id+'">'+
+ '<input type="number" class="w-40 border rounded-lg px-3 py-2 text-right" value="'+g.budget+'" data-b="'+g.id+'"></div>';}).join('');}
+function saveG(){DB.groups.forEach(function(g){
+ g.name=document.querySelector('[data-n="'+g.id+'"]').value;
+ g.color=document.querySelector('[data-c="'+g.id+'"]').value;
+ g.budget=Number(document.querySelector('[data-b="'+g.id+'"]').value)||0;});
+ save();alert('บันทึกเรียบร้อย');rSet();}
+function expJSON(){var a=document.createElement('a');
+ a.href=URL.createObjectURL(new Blob([JSON.stringify(DB,null,2)],{type:'application/json'}));
+ a.download='งบประมาณ2570_'+new Date().toISOString().slice(0,10)+'.json';a.click();}
+function impJSON(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();
+ r.onload=function(){try{DB=JSON.parse(r.result);save();location.reload();}catch(x){alert('ไฟล์ไม่ถูกต้อง');}};r.readAsText(f);}
 function expCSV(){var rows=[['กลุ่มงาน','ที่','ชื่อโครงการ','กิจกรรม','ผู้รับผิดชอบ','งบพัฒนาผู้เรียน','งบอุดหนุน','งบอื่นๆ','งบรวม','เบิกจ่ายจริง','คงเหลือ']];
  DB.projects.forEach(function(p){var u=spent(p.id);
   rows.push([gName(p.groupId),p.code,p.name,'(รวมโครงการ)',p.owner,p.bDev,p.bSub,p.bOther,p.budget,u,p.budget-u]);
@@ -583,5 +439,8 @@ function expCSV(){var rows=[['กลุ่มงาน','ที่','ชื่�
  var csv='\uFEFF'+rows.map(function(r){return r.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
  a.download='รายงานงบประมาณ2570.csv';a.click();}
+function resetAll(){if(confirm('โหลดข้อมูลตั้งต้น 43 โครงการใหม่? ข้อมูลที่กรอกไว้จะหายทั้งหมด')){DB=seed();save();location.reload();}}
+
+go('dashboard');save();
 </script>
 </body></html>
