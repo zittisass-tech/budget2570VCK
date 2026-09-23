@@ -207,15 +207,15 @@ body{font-family:'Sarabun',sans-serif;background:#f1f5f9}
    <button onclick="saveA()" class="px-5 py-2 rounded-lg bg-emerald-600 text-white font-semibold">บันทึก</button></div></div></div>
 
 <script>
-// ตั้งค่า Firebase ของคุณครู (ถูกต้องครบถ้วน)
+// ตั้งค่า Firebase ของคุณครู
 const firebaseConfig = {
-  apiKey: "AIzaSyAs-eZ9-5f2r4s8_9d8s7f6g5h4j3k2l1", // อิงตามค่าจริงของครู
-  authDomain: "budget2570vck-28189.firebaseapp.com",
-  projectId: "budget2570vck-28189",
-  storageBucket: "budget2570vck-28189.firebasestorage.app",
-  messagingSenderId: "584901212587",
-  appId: "1:584901212587:web:b6ddb9af0e491ea697faee",
-  measurementId: "G-2HNTET1PXB"
+  apiKey: "***************************************",
+  authDomain: "budget2570vck.firebaseapp.com",
+  projectId: "budget2570vck",
+  storageBucket: "budget2570vck.firebasestorage.app",
+  messagingSenderId: "245093679100",
+  appId: "1:245093679100:web:425b014d38a4bb4b6cfc79",
+  measurementId: "G-WXLK1PQ3PW"
 };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
@@ -225,6 +225,7 @@ var currentUser = null;
 var userRole = 'user';
 var DB = { groups:[], projects:[], activities:[] };
 
+// ข้อมูลเริ่มต้น 43 โครงการ
 var RAW_P=[
 ['P01','1','พัฒนาและเพิ่มประสิทธิภาพการทำงานด้านการบริหารวิชาการ','G1','นางสุรีพร ชิตมณี',0,10000,0],
 ['P02','2','พัฒนาระบบงานเลขานุการ กลุ่มบริหารวิชาการ','G1','นางสิตานัน อนุสาร',0,5000,0],
@@ -280,9 +281,11 @@ var RAW_A=[
 ['A07','P29','ทัศนศึกษาของนักเรียน ปีละครั้ง',280000,'งานกิจกรรมพัฒนาผู้เรียน'],
 ['A08','P24','นำเสนอผลงานการศึกษาค้นคว้าด้วยตนเอง (IS)',60000,'น.ส.จุฑามาศ อนันตกูล']];
 
+// ตรวจสอบสถานะ Login
 auth.onAuthStateChanged(function(user){
  if(user){
   currentUser = user;
+  // ดึงสิทธิ์จาก Firestore
   db.collection('users').doc(user.uid).get().then(function(doc){
    if(doc.exists){ userRole = doc.data().role || 'user'; }
    else { userRole = (user.email === 'admin@budget2570vck.local') ? 'admin' : 'user'; }
@@ -302,6 +305,7 @@ function doLogin(){
  var email = u.indexOf('@') >= 0 ? u : u + '@budget2570vck.local';
  
  auth.signInWithEmailAndPassword(email, p).catch(function(err){
+  // ถ้ายังไม่มีบัญชี admin เริ่มต้น ให้สร้างให้อัตโนมัติครั้งแรก
   if(u === 'admin' && p === 'password123'){
    auth.createUserWithEmailAndPassword(email, p).then(function(res){
     db.collection('users').doc(res.user.uid).set({role:'admin', username:'admin'});
@@ -325,6 +329,7 @@ function setupUIPermissions(){
  }
 }
 
+// โหลดข้อมูลจาก Firestore
 function loadCloudData(){
  busy(true);
  db.collection('budgetData').doc('main').get().then(function(doc){
@@ -382,6 +387,7 @@ function createNewUser(){
  }).catch(function(err){ alert('สร้างไม่สำเร็จ: '+err.message); });
 }
 
+// ฟังก์ชันระบบทั่วไป
 function $(i){return document.getElementById(i);}
 function fmt(n){return Number(n||0).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});}
 function uid(p){return p+Date.now().toString(36)+Math.floor(Math.random()*900+100);}
