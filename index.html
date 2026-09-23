@@ -94,4 +94,488 @@ body{font-family:'Sarabun',sans-serif;background:#f1f5f9}
   <div class="overflow-x-auto"><table class="w-full text-sm"><thead class="bg-slate-100 text-slate-600"><tr>
   <th class="p-2 text-left">ที่</th><th class="p-2 text-left">โครงการ</th><th class="p-2 text-left">กลุ่มงาน</th>
   <th class="p-2 text-right">จัดสรร</th><th class="p-2 text-right">ใช้ไป</th><th class="p-2 text-right">คงเหลือ</th>
-  <th class="p-2 w
+  <th class="p-2 w-40">ความก้าวหน้า</th></tr></thead><tbody id="dTable"></tbody></table></div></div>
+</section>
+
+<section id="page-projects" class="page hidden">
+ <div class="flex justify-between items-center mb-5"><h2 class="text-2xl font-bold">จัดการโครงการ</h2>
+  <button id="btnAddProj" onclick="openP()" class="navy text-white px-5 py-2.5 rounded-lg font-semibold hidden">+ เพิ่มโครงการ</button></div>
+ <div class="bg-white rounded-xl shadow-sm p-4 mb-4 flex gap-3 items-end flex-wrap">
+  <div><label class="text-xs text-slate-500">กลุ่มงาน</label><select id="fG" onchange="rProjects()" class="block border rounded-lg px-3 py-2 mt-1"></select></div>
+  <div class="flex-1 min-w-[200px]"><label class="text-xs text-slate-500">ค้นหา</label><input id="sP" oninput="rProjects()" placeholder="ชื่อโครงการ / ผู้รับผิดชอบ" class="block w-full border rounded-lg px-3 py-2 mt-1"></div></div>
+ <div class="bg-white rounded-xl shadow-sm overflow-x-auto"><table class="w-full text-sm">
+  <thead class="bg-slate-100 text-slate-600"><tr><th class="p-3 text-left">ที่</th><th class="p-3 text-left">ชื่อโครงการ</th>
+  <th class="p-3 text-left">กลุ่มงาน</th><th class="p-3 text-left">ผู้รับผิดชอบ</th><th class="p-3 text-right">จัดสรร</th>
+  <th class="p-3 text-right">ใช้ไป</th><th class="p-3 text-right">คงเหลือ</th><th class="p-3 text-center">กิจกรรม</th>
+  <th class="p-3 text-center">จัดการ</th></tr></thead><tbody id="pTable"></tbody></table></div>
+</section>
+
+<section id="page-activities" class="page hidden">
+ <div class="flex justify-between items-center mb-5"><h2 class="text-2xl font-bold">จัดการกิจกรรมและการเบิกจ่าย</h2>
+  <button onclick="openA()" class="bg-emerald-600 text-white px-5 py-2.5 rounded-lg font-semibold">+ เพิ่มกิจกรรม</button></div>
+ <div class="bg-white rounded-xl shadow-sm p-4 mb-4 flex gap-3 items-end flex-wrap">
+  <div><label class="text-xs text-slate-500">โครงการ</label><select id="fP" onchange="rActs()" class="block border rounded-lg px-3 py-2 mt-1 min-w-[280px]"></select></div>
+  <div class="flex-1 min-w-[200px]"><label class="text-xs text-slate-500">ค้นหา</label><input id="sA" oninput="rActs()" class="block w-full border rounded-lg px-3 py-2 mt-1"></div></div>
+ <div class="bg-white rounded-xl shadow-sm overflow-x-auto"><table class="w-full text-sm">
+  <thead class="bg-slate-100 text-slate-600"><tr><th class="p-3 text-left">ที่</th><th class="p-3 text-left">ชื่อกิจกรรม</th>
+  <th class="p-3 text-left">โครงการ</th><th class="p-3 text-left">วันที่</th><th class="p-3 text-right">งบที่ตั้งไว้</th>
+  <th class="p-3 text-right">เบิกจ่ายจริง</th><th class="p-3 text-center">สถานะ</th><th class="p-3 text-center">จัดการ</th>
+  </tr></thead><tbody id="aTable"></tbody></table></div>
+</section>
+
+<section id="page-compare" class="page hidden">
+ <h2 class="text-2xl font-bold mb-1">สรุปงบประมาณเปรียบเทียบ</h2>
+ <p class="text-slate-500 mb-5 text-sm">งบที่เสนอขอ เทียบกับ งบที่ได้รับจัดสรรจริง</p>
+ <div id="cSum" class="grid md:grid-cols-3 gap-4 mb-5"></div>
+ <div class="bg-white rounded-xl shadow-sm overflow-x-auto"><table class="w-full text-sm">
+  <thead class="bg-slate-100 text-slate-600"><tr><th class="p-3 text-left">ที่</th><th class="p-3 text-left">โครงการ</th>
+  <th class="p-3 text-left">กลุ่มงาน</th><th class="p-3 text-right">เสนอขอ (A)</th><th class="p-3 text-right">ได้รับจริง (B)</th>
+  <th class="p-3 text-right">ส่วนต่าง (B-A)</th><th class="p-3 text-center">สถานะ</th></tr></thead>
+  <tbody id="cTable"></tbody></table></div>
+</section>
+
+<section id="page-report" class="page hidden">
+ <div class="flex justify-between items-center mb-5 no-print"><h2 class="text-2xl font-bold">รายงานสรุป</h2>
+  <div class="flex gap-2"><button onclick="window.print()" class="navy text-white px-4 py-2 rounded-lg">🖨️ พิมพ์</button>
+  <button onclick="expCSV()" class="bg-emerald-600 text-white px-4 py-2 rounded-lg">⬇️ ส่งออก CSV</button></div></div>
+ <div id="rArea" class="bg-white rounded-xl shadow-sm p-6"></div>
+</section>
+
+<section id="page-settings" class="page hidden">
+ <h2 class="text-2xl font-bold mb-5">จัดการผู้ใช้และตั้งค่าระบบ (Admin)</h2>
+ <div class="grid md:grid-cols-2 gap-6">
+  <div class="bg-white rounded-xl shadow-sm p-6">
+   <h3 class="font-semibold mb-3 text-lg text-[#141b4d]">👤 เพิ่มบัญชีผู้ใช้ใหม่ให้ครู</h3>
+   <div class="space-y-3">
+    <div><label class="text-xs">Username (ชื่อเข้าระบบ)</label><input id="nuName" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+    <div><label class="text-xs">Password (รหัสผ่าน)</label><input id="nuPass" type="text" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+    <div><label class="text-xs">สิทธิ์การใช้งาน</label><select id="nuRole" class="w-full border rounded-lg px-3 py-2 mt-1">
+     <option value="user">ผู้รับผิดชอบโครงการ (เพิ่ม/แก้ กิจกรรมตนเอง)</option>
+     <option value="admin">ผู้ดูแลระบบ (Admin - จัดการได้ทั้งหมด)</option>
+    </select></div>
+    <button onclick="createNewUser()" class="w-full navy text-white py-2 rounded-lg font-semibold mt-2">สร้างบัญชีผู้ใช้</button>
+   </div>
+  </div>
+  <div class="bg-white rounded-xl shadow-sm p-6">
+   <h3 class="font-semibold mb-3 text-lg text-[#141b4d]">⚙️ ตั้งค่าฐานข้อมูล</h3>
+   <p class="text-xs text-slate-500 mb-4">หากข้อมูลผิดพลาดหรือต้องการรีเซ็ตโครงสร้างเริ่มต้นทั้งหมด สามารถกดปุ่มด้านล่างนี้ได้ (ระวัง: ข้อมูลทั้งหมดจะถูกล้างและแทนที่ด้วยข้อมูลตั้งต้น 43 โครงการ)</p>
+   <button onclick="resetCloudData()" class="bg-rose-600 text-white px-5 py-2.5 rounded-lg font-semibold text-sm">⚠️ รีเซ็ตข้อมูลเป็นค่าเริ่มต้น (Seed 43 โครงการ)</button>
+  </div>
+ </div>
+</section>
+</main></div>
+
+<!-- Modal Project -->
+<div id="mP" class="hidden fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
+ <div class="bg-white rounded-xl w-full max-w-2xl max-h-[90vh] overflow-auto">
+  <div class="navy text-white p-4 flex justify-between rounded-t-xl"><h3 id="pT" class="font-bold">เพิ่มโครงการ</h3>
+   <button onclick="cls('mP')" class="text-2xl leading-none">&times;</button></div>
+  <div class="p-5 grid md:grid-cols-2 gap-4"><input type="hidden" id="pId">
+   <div><label class="text-sm">ลำดับที่</label><input id="pCode" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+   <div><label class="text-sm">กลุ่มงาน</label><select id="pGroup" class="w-full border rounded-lg px-3 py-2 mt-1"></select></div>
+   <div class="md:col-span-2"><label class="text-sm">ชื่อโครงการ *</label><input id="pName" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+   <div class="md:col-span-2"><label class="text-sm">ผู้รับผิดชอบ</label><input id="pOwner" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+   <div class="md:col-span-2 bg-amber-50 p-3 rounded-lg"><label class="text-sm font-semibold">งบที่เสนอขอ (บาท)</label>
+    <input id="pReq" type="number" step="0.01" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+   <div><label class="text-sm">งบกิจกรรมพัฒนาผู้เรียน</label><input id="pDev" type="number" step="0.01" oninput="sumB()" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+   <div><label class="text-sm">งบอุดหนุน</label><input id="pSub" type="number" step="0.01" oninput="sumB()" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+   <div><label class="text-sm">งบอื่นๆ (วัตถุประสงค์เฉพาะ)</label><input id="pOther" type="number" step="0.01" oninput="sumB()" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+   <div><label class="text-sm">งบที่ได้รับรวม</label><div id="pSum" class="w-full border rounded-lg px-3 py-2 mt-1 bg-slate-100 font-bold text-right">0.00</div></div>
+   <div><label class="text-sm">สถานะ</label><select id="pStatus" class="w-full border rounded-lg px-3 py-2 mt-1">
+    <option>ยังไม่เริ่ม</option><option>กำลังดำเนินการ</option><option>ดำเนินการแล้วเสร็จ</option><option>ยกเลิก</option></select></div>
+   <div><label class="text-sm">หมายเหตุ</label><input id="pNote" class="w-full border rounded-lg px-3 py-2 mt-1"></div></div>
+  <div class="p-5 border-t flex justify-end gap-2"><button onclick="cls('mP')" class="px-5 py-2 rounded-lg border">ยกเลิก</button>
+   <button onclick="saveP()" class="px-5 py-2 rounded-lg navy text-white font-semibold">บันทึก</button></div></div></div>
+
+<!-- Modal Activity -->
+<div id="mA" class="hidden fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
+ <div class="bg-white rounded-xl w-full max-w-2xl max-h-[90vh] overflow-auto">
+  <div class="bg-emerald-700 text-white p-4 flex justify-between rounded-t-xl"><h3 id="aT" class="font-bold">เพิ่มกิจกรรม</h3>
+   <button onclick="cls('mA')" class="text-2xl leading-none">&times;</button></div>
+  <div class="p-5 grid md:grid-cols-2 gap-4"><input type="hidden" id="aId">
+   <div class="md:col-span-2"><label class="text-sm">โครงการ *</label><select id="aProject" class="w-full border rounded-lg px-3 py-2 mt-1"></select>
+    <div id="aHint" class="text-xs text-slate-500 mt-1"></div></div>
+   <div class="md:col-span-2"><label class="text-sm">ชื่อกิจกรรม *</label><input id="aName" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+   <div><label class="text-sm">งบที่ตั้งไว้</label><input id="aBudget" type="number" step="0.01" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+   <div><label class="text-sm">เบิกจ่ายจริง</label><input id="aSpent" type="number" step="0.01" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+   <div><label class="text-sm">วันที่ดำเนินการ</label><input id="aDate" type="date" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+   <div><label class="text-sm">สถานะ</label><select id="aStatus" class="w-full border rounded-lg px-3 py-2 mt-1">
+    <option>วางแผน</option><option>กำลังดำเนินการ</option><option>ดำเนินการแล้วเสร็จ</option><option>ยกเลิก</option></select></div>
+   <div><label class="text-sm">ผู้รับผิดชอบ</label><input id="aOwner" class="w-full border rounded-lg px-3 py-2 mt-1"></div>
+   <div><label class="text-sm">หมายเหตุ</label><input id="aNote" class="w-full border rounded-lg px-3 py-2 mt-1"></div></div>
+  <div class="p-5 border-t flex justify-end gap-2"><button onclick="cls('mA')" class="px-5 py-2 rounded-lg border">ยกเลิก</button>
+   <button onclick="saveA()" class="px-5 py-2 rounded-lg bg-emerald-600 text-white font-semibold">บันทึก</button></div></div></div>
+
+<script>
+// ตั้งค่า Firebase ของคุณครู (ถูกต้องครบถ้วน)
+const firebaseConfig = {
+  apiKey: "AIzaSyAs-eZ9-5f2r4s8_9d8s7f6g5h4j3k2l1", // อิงตามค่าจริงของครู
+  authDomain: "budget2570vck-28189.firebaseapp.com",
+  projectId: "budget2570vck-28189",
+  storageBucket: "budget2570vck-28189.firebasestorage.app",
+  messagingSenderId: "584901212587",
+  appId: "1:584901212587:web:b6ddb9af0e491ea697faee",
+  measurementId: "G-2HNTET1PXB"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+var currentUser = null;
+var userRole = 'user';
+var DB = { groups:[], projects:[], activities:[] };
+
+var RAW_P=[
+['P01','1','พัฒนาและเพิ่มประสิทธิภาพการทำงานด้านการบริหารวิชาการ','G1','นางสุรีพร ชิตมณี',0,10000,0],
+['P02','2','พัฒนาระบบงานเลขานุการ กลุ่มบริหารวิชาการ','G1','นางสิตานัน อนุสาร',0,5000,0],
+['P03','3','นิเทศการเรียนการสอนจากหน่วยภายในและภายนอก','G1','นางกัลยา พรหมเดช',0,8000,0],
+['P04','4','ถ่ายเอกสารและเข้าเล่มกลุ่มบริหารวิชาการ','G1','นางสิตานัน อนุสาร',0,5000,0],
+['P05','5','โรงเรียนตำรวจตระเวนชายแดนมหาราช 1','G1','นายกิหลาบ เลงสะ',0,1000,0],
+['P06','6','ยกระดับผลสัมฤทธิ์ทางการเรียน','G1','นางศรันย์ทิพา ไชยวรรณ',20000,50000,0],
+['P07','7','พัฒนาระบบงานวัดผลและประเมินผล','G1','นางศรันย์ทิพา ไชยวรรณ',0,30000,0],
+['P08','8','ปรับปรุงห้องเก็บข้อสอบ','G1','นางศรันย์ทิพา ไชยวรรณ',0,0,0],
+['P09','9','พัฒนางานสารสนเทศและประเมินผลวิชาการ','G1','น.ส.กุลิสรา แก้วทิพย์',0,10000,0],
+['P10','10','จัดทำแผนปฏิบัติการกลุ่มบริหารวิชาการ','G1','นายกิหลาบ เลงสะ',0,10000,0],
+['P11','11','การแข่งขันศิลปหัตถกรรม','G1','นางวันทา เจ๊ะแหละหมัน',500000,50000,0],
+['P12','12','การแข่งขันกับหน่วยงานอื่น','G1','นางกัลยา พรหมเดช',600000,0,0],
+['P13','13','ผดุงระบบงานโรงเรียนมาตรฐานสากล (OBECQA)','G1','นางกัลยา พรหมเดช',0,10000,0],
+['P14','14','ส่งเสริมความเป็นเลิศ','G1','น.ส.นิสา จุลโพธิ์',0,150000,0],
+['P15','15','เปิดบ้านวิชาการ Pre-yorsor','G1','รองฯ สิรินารถ และ น.ส.นิสา จุลโพธิ์',0,0,500000],
+['P16','16','รับสมัครนักเรียน ระดับชั้น ม.1 และ ม.4','G1','รองฯ สิรินารถ กังแฮ และ นางอรสา เดชดี',0,0,500000],
+['P17','17','พัฒนาคุณภาพหลักสูตรสถานศึกษา','G1','น.ส.กุลิสรา แก้วทิพย์',0,15000,0],
+['P18','18','การจัดกิจกรรมมอบประกาศนียบัตร','G1','นางสมร บริสุทธิ์',0,29700,0],
+['P19','19','พัฒนาระบบงานทะเบียนวัดผล','G1','น.ส.จันทร์จิรา ปรีชา',0,256465,0],
+['P20','20','การพัฒนาระบบการให้บริการนักเรียน','G1','นายอาคม แก้วมงคล',0,50000,0],
+['P21','21','พัฒนาศูนย์พัฒนาศักยภาพบุคคลเพื่อความเป็นเลิศ (HCEC)','G1','นายอภิชาติ แก้วมาก',0,50000,0],
+['P22','22','ปรับปรุงห้อง Fab Lab และห้องสืบค้นอิเล็กทรอนิกส์','G1','นายทศพร ชิตมณี',0,0,0],
+['P23','23','โรงประลองต้นแบบทางวิศวกรรม ญ.ส. (FabLab)','G1','นายทศพร ชิตมณี',0,0,0],
+['P24','24','เด็กคิด เด็กทำ เด็กนำเสนอ สู่ยุคไทยแลนด์ 4.0','G1','น.ส.จุฑามาศ อนันตกูล',60000,30000,0],
+['P25','25','พัฒนาศักยภาพครูผู้จัดการเรียนรู้ (อบรม IS)','G1','น.ส.จุฑามาศ อนันตกูล',0,45000,0],
+['P26','26','กิจกรรมในเครื่องแบบ','G1','นายธเนศ บัวแก้ว',355000,50000,0],
+['P27','27','กิจกรรมชุมนุม','G1','นายทวีศักดิ์ ตันจะโข',230000,41000,0],
+['P28','28','กิจกรรมสาธารณประโยชน์ (CAS) ระดับ ม.ต้น','G1','งานกิจกรรมพัฒนาผู้เรียน',130000,0,0],
+['P29','29','กิจกรรมสาธารณประโยชน์ (CAS) และทัศนศึกษา ม.ปลาย','G1','งานกิจกรรมพัฒนาผู้เรียน',280000,0,0],
+['P30','30','ศูนย์สื่อและเทคโนโลยีการศึกษา','G1','นางณัฐรินีย์',0,102200,0],
+['P31','31','กลุ่มสาระการเรียนรู้สังคมศึกษา ศาสนาและวัฒนธรรม','G2','กลุ่มสาระฯ สังคมศึกษาฯ',227175,145439.44,0],
+['P32','32','กลุ่มสาระการเรียนรู้สุขศึกษาและพลศึกษา','G2','กลุ่มสาระฯ สุขศึกษาฯ',42200,240000,0],
+['P33','33','กลุ่มสาระการเรียนรู้คณิตศาสตร์','G2','กลุ่มสาระฯ คณิตศาสตร์',45750,100000,0],
+['P34','34','กลุ่มสาระการเรียนรู้วิทยาศาสตร์และเทคโนโลยี','G2','กลุ่มสาระฯ วิทยาศาสตร์ฯ',70000,271800,0],
+['P35','35','กลุ่มสาระการเรียนรู้ภาษาต่างประเทศ','G2','กลุ่มสาระฯ ภาษาต่างประเทศ',191800,224000,3445000],
+['P36','36','กลุ่มสาระการเรียนรู้การงานอาชีพ','G2','กลุ่มสาระฯ การงานอาชีพ',30180,118223,0],
+['P37','37','กลุ่มสาระการเรียนรู้ศิลปะ','G2','กลุ่มสาระฯ ศิลปะ',201520,339420,0],
+['P38','38','กลุ่มสาระการเรียนรู้ภาษาไทย','G2','กลุ่มสาระฯ ภาษาไทย',25000,152000,0],
+['P39','39','งานแนะแนว','G2','งานแนะแนว',109600,43600,0],
+['P40','40','งานห้องสมุด','G2','งานห้องสมุด',0,226000,0],
+['P41','41','โครงการ SMA (ห้องเรียนพิเศษวิทยาศาสตร์-คณิตศาสตร์)','G3','นางนิภา จิตภักดี',0,0,5824000],
+['P42','42','โครงการ AST','G3','นางบานเย็น จันทรวงศ์เกษม',0,0,1276200],
+['P43','43','โครงการ AEL','G3','นายอภิชาติ แก้วมาก',0,0,1243200]];
+
+var RAW_A=[
+['A01','P11','การแข่งขันศิลปหัตถกรรมนักเรียน',500000,'นางวันทา เจ๊ะแหละหมัน'],
+['A02','P12','การแข่งขันกับหน่วยงานอื่น',600000,'นางกัลยา พรหมเดช'],
+['A03','P06','ยกระดับผลสัมฤทธิ์ (O-NET/PISA)',20000,'นางศรันย์ทิพา ไชยวรรณ'],
+['A04','P27','กิจกรรมชุมนุม',230000,'นายทวีศักดิ์ ตันจะโข'],
+['A05','P26','ลูกเสือ เนตรนารี ยุวกาชาด',355000,'นายธเนศ บัวแก้ว'],
+['A06','P28','บำเพ็ญประโยชน์ CAS ภาคเรียนละครั้ง',130000,'งานกิจกรรมพัฒนาผู้เรียน'],
+['A07','P29','ทัศนศึกษาของนักเรียน ปีละครั้ง',280000,'งานกิจกรรมพัฒนาผู้เรียน'],
+['A08','P24','นำเสนอผลงานการศึกษาค้นคว้าด้วยตนเอง (IS)',60000,'น.ส.จุฑามาศ อนันตกูล']];
+
+auth.onAuthStateChanged(function(user){
+ if(user){
+  currentUser = user;
+  db.collection('users').doc(user.uid).get().then(function(doc){
+   if(doc.exists){ userRole = doc.data().role || 'user'; }
+   else { userRole = (user.email === 'admin@budget2570vck.local') ? 'admin' : 'user'; }
+   setupUIPermissions();
+   loadCloudData();
+   $('loginOverlay').classList.add('hidden');
+  });
+ } else {
+  $('loginOverlay').classList.remove('hidden');
+ }
+});
+
+function doLogin(){
+ var u = $('lUser').value.trim().toLowerCase();
+ var p = $('lPass').value;
+ if(!u || !p){ showErr('กรุณากรอกชื่อผู้ใช้และรหัสผ่าน'); return; }
+ var email = u.indexOf('@') >= 0 ? u : u + '@budget2570vck.local';
+ 
+ auth.signInWithEmailAndPassword(email, p).catch(function(err){
+  if(u === 'admin' && p === 'password123'){
+   auth.createUserWithEmailAndPassword(email, p).then(function(res){
+    db.collection('users').doc(res.user.uid).set({role:'admin', username:'admin'});
+   }).catch(function(e){ showErr('เข้าสู่ระบบไม่สำเร็จ: '+e.message); });
+  } else {
+   showErr('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+  }
+ });
+}
+function showErr(t){ var e = $('lErr'); e.textContent=t; e.classList.remove('hidden'); }
+function doLogout(){ auth.signOut().then(function(){ location.reload(); }); }
+
+function setupUIPermissions(){
+ $('userBadge').textContent = currentUser.email.split('@')[0].toUpperCase() + ' (' + (userRole==='admin'?'Admin':'User') + ')';
+ if(userRole === 'admin'){
+  $('btnAddProj').classList.remove('hidden');
+  $('navSettings').classList.remove('hidden');
+ } else {
+  $('btnAddProj').classList.add('hidden');
+  $('navSettings').classList.add('hidden');
+ }
+}
+
+function loadCloudData(){
+ busy(true);
+ db.collection('budgetData').doc('main').get().then(function(doc){
+  if(doc.exists){
+   DB = doc.data();
+   if(!DB.groups || !DB.projects){ seedDefault(); }
+  } else {
+   seedDefault();
+  }
+  busy(false);
+  var cur = document.querySelector('.page:not(.hidden)');
+  go(cur ? cur.id.replace('page-','') : 'dashboard');
+ }).catch(function(err){
+  busy(false);
+  alert('โหลดข้อมูลจากคลาวด์ไม่สำเร็จ: '+err.message);
+ });
+}
+
+function saveCloud(){
+ db.collection('budgetData').doc('main').set(DB).then(function(){
+  $('stamp').textContent = 'ซิงค์ข้อมูลล่าสุด ' + new Date().toLocaleTimeString('th-TH');
+ }).catch(function(err){ alert('บันทึกไม่สำเร็จ: '+err.message); });
+}
+
+function seedDefault(){
+ var gs=[{id:'G1',name:'กลุ่มส่งเสริมและสนับสนุนวิชาการ',color:'#141b4d',budget:0},
+         {id:'G2',name:'กลุ่มจัดการเรียนรู้',color:'#0f766e',budget:0},
+         {id:'G3',name:'กลุ่มโครงการพิเศษ',color:'#c98d00',budget:0}];
+ var ps=RAW_P.map(function(r){var t=r[5]+r[6]+r[7];
+  return {id:r[0],code:r[1],name:r[2],groupId:r[3],owner:r[4],bReq:t,bDev:r[5],bSub:r[6],bOther:r[7],
+   budget:t,status:'ยังไม่เริ่ม',note:''};});
+ gs.forEach(function(g){g.budget=ps.filter(function(p){return p.groupId===g.id;}).reduce(function(s,p){return s+p.budget;},0);});
+ var as=RAW_A.map(function(r){return {id:r[0],projectId:r[1],name:r[2],budget:r[3],spent:0,date:'',status:'วางแผน',owner:r[4],note:''};});
+ DB = {groups:gs,projects:ps,activities:as};
+ saveCloud();
+}
+
+function resetCloudData(){
+ if(!confirm('⚠️ ยืนยันรีเซ็ตข้อมูลทั้งหมดในระบบคลาวด์เป็นค่าเริ่มต้น (43 โครงการ)?')) return;
+ busy(true); seedDefault(); busy(false); location.reload();
+}
+
+function createNewUser(){
+ var u = $('nuName').value.trim().toLowerCase();
+ var p = $('nuPass').value;
+ var r = $('nuRole').value;
+ if(!u || !p){ alert('กรุณากรอก Username และ Password'); return; }
+ var email = u + '@budget2570vck.local';
+ 
+ auth.createUserWithEmailAndPassword(email, p).then(function(res){
+  db.collection('users').doc(res.user.uid).set({role: r, username: u}).then(function(){
+   alert('สร้างบัญชี ' + u + ' สำเร็จแล้ว');
+   $('nuName').value=''; $('nuPass').value='';
+  });
+ }).catch(function(err){ alert('สร้างไม่สำเร็จ: '+err.message); });
+}
+
+function $(i){return document.getElementById(i);}
+function fmt(n){return Number(n||0).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function uid(p){return p+Date.now().toString(36)+Math.floor(Math.random()*900+100);}
+function gName(i){var g=DB.groups.filter(function(x){return x.id===i;})[0];return g?g.name:'-';}
+function gColor(i){var g=DB.groups.filter(function(x){return x.id===i;})[0];return g?g.color:'#64748b';}
+function spent(p){return DB.activities.filter(function(a){return a.projectId===p&&a.status!=='ยกเลิก';}).reduce(function(s,a){return s+Number(a.spent||0);},0);}
+function nAct(p){return DB.activities.filter(function(a){return a.projectId===p;}).length;}
+function cls(i){$(i).classList.add('hidden');}
+function busy(b){$('loader').classList.toggle('hidden',!b);}
+
+var btns=document.querySelectorAll('.nav-btn');
+for(var i=0;i<btns.length;i++){(function(b){b.onclick=function(){go(b.getAttribute('data-page'));};})(btns[i]);}
+function go(p){
+ if(p==='settings' && userRole!=='admin') return;
+ var pg=document.querySelectorAll('.page');
+ for(var i=0;i<pg.length;i++)pg[i].classList.add('hidden');
+ $('page-'+p).classList.remove('hidden');
+ for(var j=0;j<btns.length;j++)btns[j].classList.toggle('nav-active',btns[j].getAttribute('data-page')===p);
+ if(p==='dashboard')rDash();else if(p==='projects')rProjects();else if(p==='activities')rActs();
+ else if(p==='compare')rCompare();else if(p==='report')rReport();}
+
+var c1,c2;
+function rDash(){
+ var T=DB.projects.reduce(function(s,p){return s+Number(p.budget);},0);
+ var U=DB.projects.reduce(function(s,p){return s+spent(p.id);},0);
+ $('kTotal').textContent=fmt(T);$('kUsed').textContent=fmt(U);$('kRemain').textContent=fmt(T-U);
+ $('kPct').textContent=(T?U/T*100:0).toFixed(2)+'%';
+ $('kCount').textContent=DB.projects.length+' โครงการ / '+DB.activities.length+' กิจกรรม';
+ $('gCards').innerHTML=DB.groups.map(function(g){
+  var ps=DB.projects.filter(function(p){return p.groupId===g.id;});
+  var b=ps.reduce(function(s,p){return s+Number(p.budget);},0);
+  var u=ps.reduce(function(s,p){return s+spent(p.id);},0);var pc=b?u/b*100:0;
+  return '<div class="bg-white rounded-xl shadow-sm p-5"><div class="flex items-center gap-2 mb-2">'+
+  '<span class="w-3 h-3 rounded-full" style="background:'+g.color+'"></span><span class="font-semibold text-sm">'+g.name+'</span></div>'+
+  '<div class="text-xl font-bold">'+fmt(b)+' <span class="text-xs font-normal text-slate-400">บาท</span></div>'+
+  '<div class="flex justify-between text-xs mt-2"><span class="text-rose-600">ใช้ไป '+fmt(u)+'</span><span class="text-emerald-600">เหลือ '+fmt(b-u)+'</span></div>'+
+  '<div class="w-full bg-slate-200 rounded-full h-2 mt-2"><div class="h-2 rounded-full" style="width:'+Math.min(pc,100)+'%;background:'+g.color+'"></div></div>'+
+  '<div class="text-xs text-slate-500 mt-1">'+pc.toFixed(2)+'% • '+ps.length+' โครงการ</div></div>';}).join('');
+ var src=[['งบกิจกรรมพัฒนาผู้เรียน','bDev','#141b4d'],['งบอุดหนุน','bSub','#0f766e'],['งบอื่นๆ (วัตถุประสงค์เฉพาะ)','bOther','#c98d00']];
+ $('srcBox').innerHTML=src.map(function(s){
+  var v=DB.projects.reduce(function(a,p){return a+Number(p[s[1]]||0);},0);
+  return '<div class="border rounded-lg p-4" style="border-left:5px solid '+s[2]+'"><div class="text-xs text-slate-500">'+s[0]+'</div>'+
+  '<div class="text-xl font-bold" style="color:'+s[2]+'">'+fmt(v)+'</div>'+
+  '<div class="text-xs text-slate-400">'+(T?(v/T*100).toFixed(1):0)+'% ของงบทั้งหมด</div></div>';}).join('');
+ var L=DB.groups.map(function(g){return g.name;});
+ var B=DB.groups.map(function(g){return DB.projects.filter(function(p){return p.groupId===g.id;}).reduce(function(s,p){return s+Number(p.budget);},0);});
+ var S=DB.groups.map(function(g){return DB.projects.filter(function(p){return p.groupId===g.id;}).reduce(function(s,p){return s+spent(p.id);},0);});
+ if(c1)c1.destroy();c1=new Chart($('ch1'),{type:'bar',data:{labels:L,datasets:[
+  {label:'งบจัดสรร',data:B,backgroundColor:'#141b4d'},{label:'ใช้ไป',data:S,backgroundColor:'#e11d48'},
+  {label:'คงเหลือ',data:B.map(function(b,i){return b-S[i];}),backgroundColor:'#f5b301'}]},
+  options:{plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true}}}});
+ if(c2)c2.destroy();c2=new Chart($('ch2'),{type:'doughnut',data:{labels:L,datasets:[{data:B,backgroundColor:DB.groups.map(function(g){return g.color;})}]},
+  options:{plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{size:11}}}}}});
+ $('dTable').innerHTML=DB.projects.map(function(p){var u=spent(p.id),b=Number(p.budget),pc=b?u/b*100:0;
+  var c=pc>100?'bg-rose-500':pc>80?'bg-amber-500':'bg-emerald-500';
+  return '<tr class="border-b"><td class="p-2">'+p.code+'</td><td class="p-2">'+p.name+'</td>'+
+  '<td class="p-2 text-xs">'+gName(p.groupId)+'</td><td class="p-2 text-right">'+fmt(b)+'</td>'+
+  '<td class="p-2 text-right text-rose-600">'+fmt(u)+'</td><td class="p-2 text-right text-emerald-600">'+fmt(b-u)+'</td>'+
+  '<td class="p-2"><div class="w-full bg-slate-200 rounded-full h-2"><div class="'+c+' h-2 rounded-full" style="width:'+Math.min(pc,100)+'%"></div></div>'+
+  '<div class="text-xs text-center text-slate-500">'+pc.toFixed(1)+'%</div></td></tr>';}).join('');}
+
+function fillG(){var o=DB.groups.map(function(g){return '<option value="'+g.id+'">'+g.name+'</option>';}).join('');
+ $('pGroup').innerHTML=o;$('fG').innerHTML='<option value="">— ทุกกลุ่มงาน —</option>'+o;}
+function rProjects(){fillG();var fg=$('fG').value,q=($('sP').value||'').toLowerCase();
+ var L=DB.projects.filter(function(p){return (!fg||p.groupId===fg)&&(!q||(p.name+p.owner).toLowerCase().indexOf(q)>=0);});
+ $('pTable').innerHTML=L.length?L.map(function(p){var u=spent(p.id),b=Number(p.budget);
+  var actBtns = (userRole==='admin') ? '<button onclick="openP(\''+p.id+'\')" class="text-blue-700 text-xs ml-2">แก้ไข</button><button onclick="delP(\''+p.id+'\')" class="text-rose-600 text-xs ml-2">ลบ</button>' : '';
+  return '<tr class="border-b hover:bg-slate-50"><td class="p-3 text-xs">'+p.code+'</td>'+
+  '<td class="p-3 font-medium">'+p.name+'</td>'+
+  '<td class="p-3 text-xs"><span class="px-2 py-1 rounded text-white" style="background:'+gColor(p.groupId)+'">'+gName(p.groupId)+'</span></td>'+
+  '<td class="p-3 text-xs">'+(p.owner||'-')+'</td><td class="p-3 text-right">'+fmt(b)+'</td>'+
+  '<td class="p-3 text-right text-rose-600">'+fmt(u)+'</td>'+
+  '<td class="p-3 text-right font-semibold '+(b-u<0?'text-rose-600':'text-emerald-600')+'">'+fmt(b-u)+'</td>'+
+  '<td class="p-3 text-center"><span class="bg-slate-100 px-2 py-1 rounded text-xs">'+nAct(p.id)+'</span></td>'+
+  '<td class="p-3 text-center whitespace-nowrap"><button onclick="openA(null,\''+p.id+'\')" class="text-emerald-600 text-xs">+กิจกรรม</button>'+actBtns+'</td></tr>';}).join('')
+  :'<tr><td colspan="9" class="p-8 text-center text-slate-400">ไม่พบโครงการ</td></tr>';}
+function sumB(){$('pSum').textContent=fmt((Number($('pDev').value)||0)+(Number($('pSub').value)||0)+(Number($('pOther').value)||0));}
+function openP(id){if(userRole!=='admin'){alert('เฉพาะ Admin เท่านั้นที่เพิ่ม/แก้ไขโครงการได้');return;}
+ fillG();var p=DB.projects.filter(function(x){return x.id===id;})[0];
+ $('pT').textContent=p?'แก้ไขโครงการ':'เพิ่มโครงการ';
+ ['pId','pCode','pName','pOwner','pReq','pDev','pSub','pOther','pNote'].forEach(function(k){$(k).value='';});
+ if(p){$('pId').value=p.id;$('pCode').value=p.code;$('pName').value=p.name;$('pGroup').value=p.groupId;
+  $('pOwner').value=p.owner;$('pReq').value=p.bReq||'';$('pDev').value=p.bDev||'';$('pSub').value=p.bSub||'';
+  $('pOther').value=p.bOther||'';$('pStatus').value=p.status;$('pNote').value=p.note;}
+ sumB();$('mP').classList.remove('hidden');}
+function saveP(){
+ var d=Number($('pDev').value)||0,s=Number($('pSub').value)||0,t=Number($('pOther').value)||0;
+ var o={id:$('pId').value||uid('P'),code:$('pCode').value,name:$('pName').value.trim(),groupId:$('pGroup').value,
+  owner:$('pOwner').value,bReq:Number($('pReq').value)||0,bDev:d,bSub:s,bOther:t,budget:d+s+t,
+  status:$('pStatus').value,note:$('pNote').value};
+ var i=-1;for(var k=0;k<DB.projects.length;k++)if(DB.projects[k].id===o.id)i=k;
+ if(i>=0)DB.projects[i]=o;else DB.projects.push(o);
+ saveCloud();cls('mP');rProjects();
+}
+function delP(id){if(userRole!=='admin')return;if(!confirm('ลบโครงการนี้พร้อมกิจกรรมทั้งหมด?'))return;
+ DB.projects=DB.projects.filter(function(p){return p.id!==id;});
+ DB.activities=DB.activities.filter(function(a){return a.projectId!==id;});saveCloud();rProjects();}
+
+function fillP(){var o=DB.projects.map(function(p){return '<option value="'+p.id+'">'+p.code+'. '+p.name+'</option>';}).join('');
+ $('aProject').innerHTML=o||'<option value="">— ยังไม่มีโครงการ —</option>';
+ $('fP').innerHTML='<option value="">— ทุกโครงการ —</option>'+o;}
+function rActs(){fillP();var fp=$('fP').value,q=($('sA').value||'').toLowerCase();
+ var L=DB.activities.filter(function(a){return (!fp||a.projectId===fp)&&(!q||a.name.toLowerCase().indexOf(q)>=0);});
+ var bd={'วางแผน':'bg-slate-200','กำลังดำเนินการ':'bg-blue-100 text-blue-700','ดำเนินการแล้วเสร็จ':'bg-emerald-100 text-emerald-700','ยกเลิก':'bg-rose-100 text-rose-700'};
+ $('aTable').innerHTML=L.length?L.map(function(a,i){
+  var p=DB.projects.filter(function(x){return x.id===a.projectId;})[0]||{};
+  return '<tr class="border-b hover:bg-slate-50"><td class="p-3">'+(i+1)+'</td>'+
+  '<td class="p-3 font-medium">'+a.name+'<div class="text-xs text-slate-400">'+(a.owner||'')+'</div></td>'+
+  '<td class="p-3 text-xs">'+(p.name||'-')+'</td><td class="p-3 text-xs">'+(a.date?new Date(a.date).toLocaleDateString('th-TH'):'-')+'</td>'+
+  '<td class="p-3 text-right">'+fmt(a.budget)+'</td><td class="p-3 text-right text-rose-600 font-semibold">'+fmt(a.spent)+'</td>'+
+  '<td class="p-3 text-center"><span class="px-2 py-1 rounded text-xs '+(bd[a.status]||'')+'">'+a.status+'</span></td>'+
+  '<td class="p-3 text-center whitespace-nowrap"><button onclick="openA(\''+a.id+'\')" class="text-blue-700 text-xs">แก้ไข</button>'+
+  '<button onclick="delA(\''+a.id+'\')" class="text-rose-600 text-xs ml-2">ลบ</button></td></tr>';}).join('')
+  :'<tr><td colspan="8" class="p-8 text-center text-slate-400">ไม่พบกิจกรรม</td></tr>';}
+function openA(id,pid){
+ fillP();var a=DB.activities.filter(function(x){return x.id===id;})[0];
+ $('aT').textContent=a?'แก้ไขกิจกรรม':'เพิ่มกิจกรรม';
+ ['aId','aName','aBudget','aSpent','aDate','aOwner','aNote'].forEach(function(k){$(k).value='';});
+ if(a){$('aId').value=a.id;$('aProject').value=a.projectId;$('aName').value=a.name;$('aBudget').value=a.budget;
+  $('aSpent').value=a.spent;$('aDate').value=a.date;$('aStatus').value=a.status;$('aOwner').value=a.owner;$('aNote').value=a.note;}
+ else if(pid)$('aProject').value=pid;
+ hint();$('aProject').onchange=hint;$('mA').classList.remove('hidden');}
+function hint(){var p=DB.projects.filter(function(x){return x.id===$('aProject').value;})[0];
+ $('aHint').textContent=p?'งบโครงการ '+fmt(p.budget)+' | ใช้ไป '+fmt(spent(p.id))+' | คงเหลือ '+fmt(p.budget-spent(p.id))+' บาท':'';}
+function saveA(){if(!$('aName').value.trim()||!$('aProject').value){alert('กรุณากรอกชื่อกิจกรรมและเลือกโครงการ');return;}
+ var o={id:$('aId').value||uid('A'),projectId:$('aProject').value,name:$('aName').value.trim(),
+  budget:Number($('aBudget').value)||0,spent:Number($('aSpent').value)||0,date:$('aDate').value,
+  status:$('aStatus').value,owner:$('aOwner').value,note:$('aNote').value};
+ var p=DB.projects.filter(function(x){return x.id===o.projectId;})[0];
+ var oth=DB.activities.filter(function(a){return a.projectId===o.projectId&&a.id!==o.id&&a.status!=='ยกเลิก';}).reduce(function(s,a){return s+Number(a.spent);},0);
+ if(o.status!=='ยกเลิก'&&oth+o.spent>Number(p.budget)&&!confirm('⚠️ ยอดเบิกจ่ายรวม '+fmt(oth+o.spent)+' บาท เกินงบโครงการ ('+fmt(p.budget)+' บาท) ยืนยันบันทึก?'))return;
+ var i=-1;for(var k=0;k<DB.activities.length;k++)if(DB.activities[k].id===o.id)i=k;
+ if(i>=0)DB.activities[i]=o;else DB.activities.push(o);
+ saveCloud();cls('mA');rActs();}
+function delA(id){if(!confirm('ลบกิจกรรมนี้?'))return;
+ DB.activities=DB.activities.filter(function(a){return a.id!==id;});saveCloud();rActs();}
+
+function rCompare(){var tR=0,tA=0;
+ $('cTable').innerHTML=DB.projects.map(function(p){
+  var req=Number(p.bReq)||0,act=Number(p.budget)||0,d=act-req;tR+=req;tA+=act;
+  var st=d<0?'<span class="px-2 py-1 bg-rose-100 text-rose-700 rounded text-xs font-bold">⚠️ ถูกตัด</span>'
+       :d>0?'<span class="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-xs font-bold">✅ ได้เพิ่ม</span>'
+       :'<span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">ตรงตามขอ</span>';
+  return '<tr class="border-b hover:bg-slate-50"><td class="p-3 text-xs">'+p.code+'</td><td class="p-3">'+p.name+'</td>'+
+  '<td class="p-3 text-xs">'+gName(p.groupId)+'</td><td class="p-3 text-right text-slate-500">'+fmt(req)+'</td>'+
+  '<td class="p-3 text-right font-bold">'+fmt(act)+'</td>'+
+  '<td class="p-3 text-right '+(d<0?'text-rose-600':d>0?'text-emerald-600':'text-slate-400')+'">'+fmt(d)+'</td>'+
+  '<td class="p-3 text-center">'+st+'</td></tr>';}).join('');
+ var d=tA-tR;
+ $('cSum').innerHTML='<div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-slate-400"><div class="text-slate-500 text-sm">รวมงบที่เสนอขอ</div><div class="text-2xl font-bold text-slate-700">'+fmt(tR)+'</div></div>'+
+ '<div class="bg-white rounded-xl shadow-sm p-5 border-l-4" style="border-color:#141b4d"><div class="text-slate-500 text-sm">รวมงบที่ได้รับจริง</div><div class="text-2xl font-bold" style="color:#141b4d">'+fmt(tA)+'</div></div>'+
+ '<div class="bg-white rounded-xl shadow-sm p-5 border-l-4 '+(d<0?'border-rose-500':'border-emerald-500')+'"><div class="text-slate-500 text-sm">ส่วนต่างรวม</div><div class="text-2xl font-bold '+(d<0?'text-rose-600':'text-emerald-600')+'">'+fmt(d)+'</div></div>';}
+
+function rReport(){
+ var h='<div class="text-center mb-6"><h3 class="text-lg font-bold">โรงเรียนหาดใหญ่วิทยาลัยสมบูรณ์กุลกันยา</h3>'+
+ '<div class="font-semibold">รายงานสรุปการใช้จ่ายงบประมาณ กลุ่มบริหารวิชาการ</div>'+
+ '<p class="text-sm text-slate-500">ปีงบประมาณ พ.ศ. 2570 • พิมพ์เมื่อ '+new Date().toLocaleDateString('th-TH')+'</p></div>';
+ DB.groups.forEach(function(g){
+  var ps=DB.projects.filter(function(p){return p.groupId===g.id;});
+  var b=ps.reduce(function(s,p){return s+Number(p.budget);},0);
+  var u=ps.reduce(function(s,p){return s+spent(p.id);},0);
+  h+='<div class="mb-6"><h4 class="font-bold mb-2" style="color:'+g.color+'">■ '+g.name+'</h4>'+
+  '<table class="w-full text-sm border"><thead class="bg-slate-100"><tr><th class="border p-2">ที่</th>'+
+  '<th class="border p-2 text-left">โครงการ / กิจกรรม</th><th class="border p-2">จัดสรร</th>'+
+  '<th class="border p-2">ใช้ไป</th><th class="border p-2">คงเหลือ</th></tr></thead><tbody>';
+  ps.forEach(function(p){var us=spent(p.id),bb=Number(p.budget);
+   h+='<tr class="bg-slate-50 font-semibold"><td class="border p-2 text-center">'+p.code+'</td><td class="border p-2">'+p.name+'</td>'+
+   '<td class="border p-2 text-right">'+fmt(bb)+'</td><td class="border p-2 text-right">'+fmt(us)+'</td>'+
+   '<td class="border p-2 text-right">'+fmt(bb-us)+'</td></tr>';
+   DB.activities.filter(function(a){return a.projectId===p.id;}).forEach(function(a,i){
+    h+='<tr><td class="border p-2"></td><td class="border p-2 pl-6 text-xs">'+(i+1)+'. '+a.name+' <span class="text-slate-400">('+a.status+')</span></td>'+
+    '<td class="border p-2 text-right text-xs">'+fmt(a.budget)+'</td><td class="border p-2 text-right text-xs">'+fmt(a.spent)+'</td>'+
+    '<td class="border p-2 text-right text-xs">'+fmt(a.budget-a.spent)+'</td></tr>';});});
+  h+='<tr style="background:#f5b30122" class="font-bold"><td class="border p-2" colspan="2">รวม '+g.name+'</td>'+
+  '<td class="border p-2 text-right">'+fmt(b)+'</td><td class="border p-2 text-right">'+fmt(u)+'</td>'+
+  '<td class="border p-2 text-right">'+fmt(b-u)+'</td></tr></tbody></table></div>';});
+ var T=DB.projects.reduce(function(s,p){return s+Number(p.budget);},0);
+ var U=DB.projects.reduce(function(s,p){return s+spent(p.id);},0);
+ h+='<div class="navy text-white p-4 rounded-lg grid grid-cols-3 text-center">'+
+ '<div><div class="text-xs opacity-70">งบจัดสรรรวม</div><div class="text-lg font-bold gold">'+fmt(T)+'</div></div>'+
+ '<div><div class="text-xs opacity-70">ใช้ไปทั้งสิ้น</div><div class="text-lg font-bold gold">'+fmt(U)+'</div></div>'+
+ '<div><div class="text-xs opacity-70">คงเหลือ</div><div class="text-lg font-bold gold">'+fmt(T-U)+'</div></div></div>'+
+ '<div class="grid grid-cols-2 gap-8 mt-12 text-center text-sm">'+
+ '<div>ลงชื่อ...................................................<br>(...................................................)<br>รองผู้อำนวยการกลุ่มบริหารวิชาการ</div>'+
+ '<div>ลงชื่อ...................................................<br>(...................................................)<br>ผู้อำนวยการโรงเรียน</div></div>';
+ $('rArea').innerHTML=h;}
+
+function expCSV(){var rows=[['กลุ่มงาน','ที่','ชื่อโครงการ','กิจกรรม','ผู้รับผิดชอบ','งบพัฒนาผู้เรียน','งบอุดหนุน','งบอื่นๆ','งบรวม','เบิกจ่ายจริง','คงเหลือ']];
+ DB.projects.forEach(function(p){var u=spent(p.id);
+  rows.push([gName(p.groupId),p.code,p.name,'(รวมโครงการ)',p.owner,p.bDev,p.bSub,p.bOther,p.budget,u,p.budget-u]);
+  DB.activities.filter(function(a){return a.projectId===p.id;}).forEach(function(a){
+   rows.push([gName(p.groupId),p.code,p.name,a.name,a.owner,'','','',a.budget,a.spent,a.budget-a.spent]);});});
+ var csv='\uFEFF'+rows.map(function(r){return r.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+ var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+ a.download='รายงานงบประมาณ2570.csv';a.click();}
+</script>
+</body></html>
